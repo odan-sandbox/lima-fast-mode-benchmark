@@ -12,7 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: brew install lima
+    - run: brew install lima docker
     - run: limactl start ./lima/docker-amd64.yaml
     - run: export DOCKER_HOST=$(limactl list docker-amd64 --format 'unix://{{.Dir}}/sock/docker.sock')
+    - run: echo $DOCKER_HOST
     - run: docker ps
