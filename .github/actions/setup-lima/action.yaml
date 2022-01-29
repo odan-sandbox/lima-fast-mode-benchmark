@@ -4,6 +4,10 @@ inputs:
     default: '3.8'
     required: false
 
+outputs:
+  docker-host:
+    value: ${{ steps.set-docker-host.outputs.value }}
+
 runs:
   using: "composite"
   steps:
@@ -16,5 +20,6 @@ runs:
       shell: bash
 
     - name: Set DOCKER_HOST
-      run: echo "::set-output name=docker-host::$(limactl list --format 'unix://{{.Dir}}/sock/docker.sock')"
+      id: set-docker-host
+      run: echo "::set-output name=value::$(limactl list --format 'unix://{{.Dir}}/sock/docker.sock')"
       shell: bash
