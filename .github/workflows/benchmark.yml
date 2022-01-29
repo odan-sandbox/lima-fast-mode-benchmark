@@ -6,7 +6,7 @@ on:
 
 jobs:
 
-  build:
+  benchmark-amd64:
 
     runs-on: macos-11
 
@@ -22,6 +22,6 @@ jobs:
     - run: echo $DOCKER_HOST
       env:
         DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
-    - run: docker ps
+    - run: Run docker build
       env:
-        DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
+        docker build -t nextjs .
