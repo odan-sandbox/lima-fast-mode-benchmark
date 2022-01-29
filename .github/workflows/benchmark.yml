@@ -43,3 +43,24 @@ jobs:
       run: docker build -t nextjs .
       env:
         DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
+
+
+  benchmark-arm64-fast-mode:
+
+    runs-on: macos-11
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Lima
+      id: lima
+      uses: ./.github/actions/setup-lima
+
+    - name: Setup nerdctl
+      run: |
+        lima sudo systemctl start containerd
+        lima sudo nerdctl run --privileged --rm tonistiigi/binfmt --install all
+
+    - name: Run docker build
+      run: lima nerdctl build --platform=arm64 -t nextjs .
