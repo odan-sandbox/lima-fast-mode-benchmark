@@ -14,10 +14,10 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Setup Lima
-      run: ./.github/actions/setup-lima
+      id: lima
+      uses: ./.github/actions/setup-lima
       with:
         lima-config-file: ./lima/docker-amd64.yaml
-      id: lima
 
     - name: Run docker build
       run: docker build -t nextjs .
