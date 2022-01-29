@@ -1,0 +1,17 @@
+name: "Setup Lima Action"
+inputs:
+  lima-config-file:
+    default: '3.8'
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Lima and Docker
+      run: brew install lima docker
+
+    - name: Start Lima
+      run: limactl start ${{ inputs.lima-config-file }}
+
+    - name: Set DOCKER_HOST
+      run: echo "::set-output name=docker-host::$(limactl list --format 'unix://{{.Dir}}/sock/docker.sock')"

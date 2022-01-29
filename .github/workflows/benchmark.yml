@@ -12,17 +12,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - run: brew install lima docker
-    - run: limactl start ./lima/docker-amd64.yaml
-  
-    - name: Set DOCKER_HOST
-      run: echo "::set-output name=value::$(limactl list docker-amd64 --format 'unix://{{.Dir}}/sock/docker.sock')"
-      id: set-docker-host
+    
+    - name: Setup Lima
+      run: ./.github/actions/setup-lima
+      with:
+        lima-config-file: ./lima/docker-amd64.yaml
+      id: lima
 
-    - run: echo $DOCKER_HOST
-      env:
-        DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
     - name: Run docker build
       run: docker build -t nextjs .
       env:
-        DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
+        DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
