@@ -9,9 +9,12 @@ runs:
   steps:
     - name: Install Lima and Docker
       run: brew install lima docker
+      shell: bash
 
     - name: Start Lima
       run: limactl start ${{ inputs.lima-config-file }}
+      shell: bash
 
     - name: Set DOCKER_HOST
       run: echo "::set-output name=docker-host::$(limactl list --format 'unix://{{.Dir}}/sock/docker.sock')"
+      shell: bash
