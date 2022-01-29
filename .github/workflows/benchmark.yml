@@ -19,6 +19,8 @@ jobs:
       with:
         lima-config-file: ./lima/docker-amd64.yaml
 
+    - run: echo ${{ steps.lima }}
+
     - name: Run docker build
       run: docker build -t nextjs .
       env:
