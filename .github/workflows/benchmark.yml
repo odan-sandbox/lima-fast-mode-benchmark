@@ -22,6 +22,7 @@ jobs:
     - run: echo $DOCKER_HOST
       env:
         DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
-    - run: Run docker build
+    - name: Run docker build
+      run: docker build -t nextjs .
       env:
-        docker build -t nextjs .
+        DOCKER_HOST: ${{ steps.set-docker-host.outputs.value }}
