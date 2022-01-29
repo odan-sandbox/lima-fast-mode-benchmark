@@ -19,7 +19,23 @@ jobs:
       with:
         lima-config-file: ./lima/docker-amd64.yaml
 
-    - run: echo '${{ toJSON(steps.lima) }}'
+    - name: Run docker build
+      run: docker build -t nextjs .
+      env:
+        DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
+
+  benchmark-arm64:
+
+    runs-on: macos-11
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Lima
+      id: lima
+      uses: ./.github/actions/setup-lima
+      with:
+        lima-config-file: ./lima/docker-arm64.yaml
 
     - name: Run docker build
       run: docker build -t nextjs .
