@@ -57,15 +57,15 @@ jobs:
       id: lima
       uses: ./.github/actions/setup-lima
 
-    - name: Setup nerdctl
-      run: |
-        lima sudo systemctl start containerd
-        lima sudo nerdctl run --privileged --rm tonistiigi/binfmt --install all
-
     - run: cat ~/.lima/*/ha.*.log
       if: ${{ always() }}
 
     - run: limactl list
+
+    - name: Setup nerdctl
+      run: |
+        lima sudo systemctl start containerd
+        lima sudo nerdctl run --privileged --rm tonistiigi/binfmt --install all
 
     - name: Run docker build
       run: lima nerdctl build --platform=arm64 -t nextjs .
