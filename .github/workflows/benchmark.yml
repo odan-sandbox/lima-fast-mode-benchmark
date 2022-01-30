@@ -67,8 +67,8 @@ jobs:
         lima sudo systemctl start containerd
         lima sudo nerdctl run --privileged --rm tonistiigi/binfmt --install all
 
-    - name: Run docker build (ARM64)
-      run: lima nerdctl build --platform=arm64 -t nextjs .
-
     - name: Run docker build (AMD64)
       run: lima nerdctl build --platform=amd64 -t nextjs .
+
+    - name: Run docker build (ARM64)
+      run: lima nerdctl build --platform=arm64 -t nextjs .
