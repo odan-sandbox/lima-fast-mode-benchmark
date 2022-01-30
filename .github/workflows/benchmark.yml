@@ -57,7 +57,9 @@ jobs:
       id: lima
       uses: ./.github/actions/setup-lima
 
-    - run: cat ~/.lima/*/ha.*.log
+    - run: |
+        ls ~/.lima/*/ha.*.log
+        cat ~/.lima/*/ha.*.log
       if: ${{ always() }}
 
     - run: limactl list
