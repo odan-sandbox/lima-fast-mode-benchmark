@@ -1,7 +1,6 @@
 name: "Setup Lima Action"
 inputs:
   lima-config-file:
-    default: '3.8'
     required: false
 
 outputs:
