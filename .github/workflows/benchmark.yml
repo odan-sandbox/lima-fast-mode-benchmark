@@ -101,4 +101,4 @@ jobs:
 
     - name: Run docker build (ARM64)
       run: lima nerdctl build --platform=arm64 -t download-file .
-      working-directory: sample-app
+      working-directory: download-file

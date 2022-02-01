@@ -2,7 +2,7 @@ FROM node:16-slim
 
 WORKDIR /app
 
-COPY ./sample-app/ /app/sample-app
+COPY . /app/sample-app
 
 WORKDIR /app/sample-app
 
