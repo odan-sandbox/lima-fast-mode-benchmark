@@ -1,0 +1,54 @@
+name: Check Download File
+
+on:
+  push:
+    branches: [ main ]
+
+
+jobs:
+  check:
+    runs-on: macos-11
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Lima
+      id: lima
+      uses: ./.github/actions/setup-lima
+      with:
+        lima-config-file: ./lima/docker-amd64.yaml
+
+    - name: Download file
+      run: wget https://registry.yarnpkg.com/next/-/next-12.0.9.tgz
+
+    - name: Run docker build
+      run: docker build -t nextjs .
+      working-directory: download-file
+      env:
+        DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
+
+  check-fast-mode:
+    runs-on: macos-11
+    timeout-minutes: 30
+
+    steps:
+    - uses: actions/checkout@v2
+    
+
+    - name: Setup Lima
+      id: lima
+      uses: ./.github/actions/setup-lima
+
+    - name: Setup nerdctl
+      run: |
+        lima sudo systemctl start containerd
+        lima sudo nerdctl run --privileged --rm tonistiigi/binfmt --install all
+
+    - name: Run docker build (AMD64)
+      run: lima nerdctl build --platform=amd64 -t download-file .
+      working-directory: download-file
+
+    - name: Run docker build (ARM64)
+      run: lima nerdctl build --platform=arm64 -t download-file .
+      working-directory: download-file
