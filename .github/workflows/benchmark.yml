@@ -22,6 +22,12 @@ jobs:
 
     - name: Run docker build
       run: docker build -t nextjs .
+      working-directory: download-file
+      env:
+        DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
+
+    - name: Run docker build
+      run: docker build -t nextjs .
       working-directory: sample-app
       env:
         DOCKER_HOST: ${{ steps.lima.outputs.docker-host }}
